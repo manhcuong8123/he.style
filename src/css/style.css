@@ -1,0 +1,194 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Cấu hình cho sidebar */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 64px;
+  height: 100%;
+  background-color: white;
+  border-right: 1px solid #e5e7eb;
+}
+
+.text-logo {
+  color: #fff;
+  font-weight: bold;
+  font-size: 24px;
+  font-style: italic;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  position: relative;
+}
+
+.text-logo a {
+  text-shadow: red -3px 0, rgb(0, 225, 255) 3px 0;
+  font-size: 2rem;
+}
+
+/* Thêm hiệu ứng popup */
+/* Popup thông báo */
+#notificationPopup {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  position: fixed;
+  top: 10rem;
+  left: 5rem;
+  width: 300px;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  /* Bóng đổ nhẹ */
+  border-radius: 20px;
+  padding: 16px;
+}
+
+/* Khi popup được kích hoạt */
+#notificationPopup.show {
+  display: block;
+  animation: slideInRight 0.3s ease-out;
+}
+
+
+@keyframes slideInRight {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+
+/* Hiệu ứng rung khi hover */
+@keyframes shake {
+  0% {
+    transform: rotate(0deg);
+
+  }
+
+  25% {
+    transform: rotate(10deg) scale(1.2);
+  }
+
+  50% {
+    transform: rotate(-10deg) scale(1.2);
+  }
+
+  75% {
+    transform: rotate(6deg) scale(1.2);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Khi hover vào từng icon */
+.contact-icons a:hover {
+  animation: shake 0.4s ease-in-out;
+  transform-origin: center;
+
+}
+
+
+/* Áp dụng cho toàn bộ khối */
+.contact-icons {
+  font-size: 24px;
+  animation: gentle-wiggle 3s ease-in-out infinite;
+  transform-origin: center;
+}
+
+
+
+/* Wrapper chính cho ảnh và nội dung */
+.flex.items-center.space-x-2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Khung chứa ảnh */
+.w-12.h-12.bg-gray-300.rounded-lg {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Ảnh bên trong khung */
+.w-12.h-12.bg-gray-300.rounded-lg img {
+  width: 100%;
+  /* Ảnh chiếm hết chiều rộng của khung */
+  height: 100%;
+  /* Ảnh chiếm hết chiều cao của khung */
+  object-fit: cover;
+  /* Cắt ảnh nếu kích thước không khớp */
+  transition: transform 0.3s ease;
+  /* Thêm hiệu ứng cho ảnh khi hover */
+}
+
+/* Hiệu ứng khi hover vào ảnh */
+.w-12.h-12.bg-gray-300.rounded-lg:hover img {
+  transform: scale(1.05);
+  /* Tạo hiệu ứng phóng to nhẹ khi hover */
+}
+
+/* Phần văn bản bên cạnh ảnh */
+p.font-semibold.text-sm {
+  font-size: 0.875rem;
+  /* Đặt kích thước chữ cho tiêu đề */
+  font-weight: 600;
+  /* Làm đậm cho tiêu đề */
+  margin-bottom: 4px;
+  /* Khoảng cách dưới tiêu đề */
+}
+
+/* Phần mô tả thời gian */
+.text-gray-500.text-xs {
+  font-size: 0.75rem;
+  /* Kích thước chữ nhỏ cho thời gian */
+  color: #6b7280;
+  /* Màu xám nhạt cho thời gian */
+}
+
+
+
+
+
+
+/* item main */
+.item {
+  position: relative;
+  overflow: hidden;
+}
+
+.item img {
+  width: 100%;
+  transition: opacity 0.3s ease;
+}
+
+.item:hover img:first-child {
+  opacity: 0;
+  transition: 0.5s;
+
+}
+
+.item:hover img:nth-child(2) {
+  opacity: 1;
+  transition: 0.5s;
+  transform: scale(1.2);
+}
+
+/* Container cho phần tìm kiếm */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  /* Đặt thẻ <i> xuống dòng */
+  align-items: flex-start;
+}
+
