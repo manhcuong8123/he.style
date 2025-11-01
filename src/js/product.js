@@ -1,36 +1,48 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const saveButton = document.getElementById("saveButton");
+  const popup = document.getElementById("notificationPopup");
+
+  if (saveButton && popup) {
+    saveButton.addEventListener("click", () => {
+      popup.classList.remove("hidden");
+      setTimeout(() => popup.classList.add("hidden"), 5000);
+    });
+  }
+});
 (function () {
-  // Lấy data đã lưu từ trang index
-  const raw = localStorage.getItem('items');
+  const raw = localStorage.getItem("items");
   const items = raw ? JSON.parse(raw) : [];
 
-  // Lấy id (stt) từ URL
   const params = new URLSearchParams(location.search);
-  const id = Number(params.get('id'));
+  const id = Number(params.get("id"));
 
-  // Tìm sản phẩm theo stt
-  const product = items.find(x => Number(x.stt) === id);
+  const product = items.find((x) => Number(x.stt) === id);
 
-  // Helper render danh sách link (nhận string | {label,url} | array)
   function renderList(targetId, data) {
     const el = document.getElementById(targetId);
     if (!el) return;
-    el.innerHTML = '';
+    el.innerHTML = "";
     if (!data || (Array.isArray(data) && data.length === 0)) {
-      // ẩn details nếu không có dữ liệu
-      const details = el.closest('details') || el.closest('#' + targetId);
-      if (details) details.classList.add('hidden');
+      const details = el.closest("details") || el.closest("#" + targetId);
+      if (details) details.classList.add("hidden");
       return;
     }
     const arr = Array.isArray(data) ? data : [data];
-    arr.forEach(entry => {
-      let url = '', label = '';
-      if (typeof entry === 'string') { url = label = entry; }
-      else { url = entry.url; label = entry.label || entry.title || entry.url; }
+    arr.forEach((entry) => {
+      let url = "",
+        label = "";
+      if (typeof entry === "string") {
+        url = label = entry;
+      } else {
+        url = entry.url;
+        label = entry.label || entry.title || entry.url;
+      }
 
-      const li = document.createElement('li');
-      const a  = document.createElement('a');
-      a.href = url; a.target = '_blank';
-      a.className = 'underline hover:no-underline break-all';
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.className = "underline hover:no-underline break-all";
       a.textContent = label;
       li.appendChild(a);
       el.appendChild(li);
@@ -38,60 +50,77 @@
   }
 
   if (!product) {
-    // Hiển thị thông báo không thấy (có thể thay bằng toast)
-    const main = document.querySelector('main');
-    main.insertAdjacentHTML('afterbegin',
-      '<div class="bg-white p-6 rounded-xl shadow-md mb-6 text-red-500">Không tìm thấy sản phẩm!</div>');
+    const main = document.querySelector("main");
+    main.insertAdjacentHTML(
+      "afterbegin",
+      '<div class="bg-white p-6 rounded-xl shadow-md mb-6 text-red-500">Không tìm thấy sản phẩm!</div>'
+    );
     return;
   }
 
-  // Bind tiêu đề & ảnh chính & nút nguồn
-  const titleEl = document.getElementById('prodTitle');
-  if (titleEl) titleEl.textContent = `#${product.stt} ${product.title || ''}`;
+  const titleEl = document.getElementById("prodTitle");
+  if (titleEl) titleEl.textContent = `#${product.stt} ${product.title || ""}`;
 
-  const hero = document.getElementById('heroImage');
-  if (hero) { hero.src = product.mainImage; hero.alt = `Outfit #${product.stt}`; }
-
-  const sourceLink = document.getElementById('sourceLink');
-  if (sourceLink) {
-    if (product.links?.source) { sourceLink.href = product.links.source; sourceLink.target = '_blank'; }
-    else { sourceLink.classList.add('hidden'); }
+  const hero = document.getElementById("heroImage");
+  if (hero) {
+    hero.src = product.mainImage;
+    hero.alt = `Outfit #${product.stt}`;
   }
 
-  // Bind các nhóm link
-  renderList('listShirt',  product.links?.shirt);         // áo
-  renderList('listPants',  product.links?.pants);         // quần
-  renderList('listScarf',  product.links?.scarf);         // khăn
-  renderList('listShoes',  product.links?.shoes);         // giày
+  const sourceLink = document.getElementById("sourceLink");
+  if (sourceLink) {
+    if (product.links?.source) {
+      sourceLink.href = product.links.source;
+      sourceLink.target = "_blank";
+    } else {
+      sourceLink.classList.add("hidden");
+    }
+  }
+
+  renderList("listShirt", product.links?.shirt); 
+  renderList("listPants", product.links?.pants); 
+  renderList("listScarf", product.links?.scarf); // khăn
+  renderList("listShoes", product.links?.shoes); // giày
 
   // Quần tham khảo (dạng grid thẻ <a>)
-  const gridAlt = document.getElementById('gridAltPants');
+  const gridAlt = document.getElementById("gridAltPants");
   if (gridAlt) {
-    gridAlt.innerHTML = '';
+    gridAlt.innerHTML = "";
     const alt = product.links?.alt_pants || [];
-    (Array.isArray(alt) ? alt : []).forEach(entry => {
-      let url = '', label = '';
-      if (typeof entry === 'string') { url = label = entry; }
-      else { url = entry.url; label = entry.label || entry.title || entry.url; }
+    (Array.isArray(alt) ? alt : []).forEach((entry) => {
+      let url = "",
+        label = "";
+      if (typeof entry === "string") {
+        url = label = entry;
+      } else {
+        url = entry.url;
+        label = entry.label || entry.title || entry.url;
+      }
 
-      const a = document.createElement('a');
-      a.href = url; a.target = '_blank';
-      a.className = 'rounded-lg border border-neutral-200 p-3 hover:bg-neutral-50 break-all';
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.className =
+        "rounded-lg border border-neutral-200 p-3 hover:bg-neutral-50 break-all";
       a.textContent = label;
       gridAlt.appendChild(a);
     });
-    if (!alt.length) gridAlt.closest('details').classList.add('hidden');
+    if (!alt.length) gridAlt.closest("details").classList.add("hidden");
   }
 
   // Render “Phối đồ tương tự” từ các item còn lại
-  const simWrap = document.querySelector('section .grid');
+  const simWrap = document.querySelector("section .grid");
   if (simWrap) {
-    const others = items.filter(x => Number(x.stt) !== id).sort(() => Math.random() - 0.5).slice(0, 4);
-    simWrap.innerHTML = '';
-    others.forEach(p => {
-      const a = document.createElement('a');
+    const others = items
+      .filter((x) => Number(x.stt) !== id)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 4);
+    simWrap.innerHTML = "";
+    others.forEach((p) => {
+      const a = document.createElement("a");
       a.href = `product.html?id=${p.stt}`;
-      a.className = 'group rounded-[var(--radius)] overflow-hidden bg-white ring-1 ring-neutral-200 hover:shadow';
+      a.className =
+        "group rounded-[var(--radius)] overflow-hidden bg-white ring-1 ring-neutral-200 hover:shadow";
       a.innerHTML = `
         <img class="aspect-square w-full object-cover" src="${p.mainImage}" alt="look ${p.stt}">
         <div class="p-3 flex items-center justify-between text-sm">
@@ -102,8 +131,8 @@
     });
   }
 
-  // Nút Quay lại
-  document.getElementById('btnBack')?.addEventListener('click', () => {
-    if (history.length > 1) history.back(); else location.href = 'index.html';
+  document.getElementById("btnBack")?.addEventListener("click", () => {
+    if (history.length > 1) history.back();
+    else location.href = "index.html";
   });
 })();

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>he.style — Tìm kiếm & Khám phá</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--r:1.1rem}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans",sans-serif}
+    /* Dropdown popover */
+    .pop{position:absolute;inset:auto auto auto 0;min-width:220px;z-index:20}
+    .chip{border-radius:9999px;border:1px solid rgb(229 231 235/1);background:#fff}
+    /* Masonry responsive (CSS columns, không cần lib) */
+    .masonry{column-gap:1rem}
+    @media (min-width:640px){.masonry{column-count:2}}
+    @media (min-width:1024px){.masonry{column-count:3}}
+    @media (min-width:1280px){.masonry{column-count:4}}
+    .card{break-inside:avoid;margin-bottom:1rem;border-radius:var(--r);overflow:hidden}
+  </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900">
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 border-b border-neutral-200">
+    <div class="mx-auto max-w-6xl px-4 py-3 flex items-center gap-3">
+      <a href="index.html" class="inline-flex items-center gap-2 rounded-full border border-neutral-300 px-3 py-1.5 text-sm hover:bg-neutral-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Trang chủ
+      </a>
+      <div class="flex-1 text-lg font-semibold tracking-tight">Tìm kiếm & Khám phá</div>
+      <a href="suggest.html" class="rounded-full border border-neutral-300 px-3 py-1.5 text-sm hover:bg-neutral-100">AI gợi ý</a>
+    </div>
+  </header>
+
+  <!-- Hero search -->
+  <section class="mx-auto max-w-5xl px-4 pt-8">
+    <h1 class="text-center text-2xl md:text-3xl font-semibold">Tìm kiếm & Khám phá</h1>
+    <p class="text-center text-neutral-500 mt-1">Tìm cảm hứng phối đồ hoàn hảo của bạn</p>
+
+    <div class="mt-5 rounded-[var(--r)] bg-white ring-1 ring-neutral-200 p-3">
+      <div class="flex flex-col gap-3">
+        <!-- Search -->
+        <div class="flex items-center gap-2 rounded-full border border-neutral-300 px-4 py-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-neutral-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+          </svg>
+          <input id="q" type="text" placeholder="Tìm kiếm theo tiêu đề, tag, màu..." class="w-full outline-none placeholder-neutral-400"/>
+        </div>
+
+        <!-- Filters row -->
+        <div class="flex flex-wrap gap-2 relative">
+          <!-- aesthetic/vibe -->
+          <div class="relative">
+            <button id="btnVibe" class="chip px-4 py-2 text-sm">Aesthetic</button>
+            <div id="popVibe" class="pop hidden bg-white ring-1 ring-neutral-200 rounded-xl p-2 shadow">
+              <div class="grid grid-cols-2 gap-1 text-sm">
+                <label class="flex items-center gap-2 px-2 py-1 rounded hover:bg-neutral-50"><input type="checkbox" value="minimal"/> Minimal</label>
+                <label class="flex items-center gap-2 px-2 py-1 rounded hover:bg-neutral-50"><input type="checkbox" value="street"/> Street</label>
+                <label class="flex items-center gap-2 px-2 py-1 rounded hover:bg-neutral-50"><input type="checkbox" value="trendy"/> Trendy</label>
+                <label class="flex items-center gap-2 px-2 py-1 rounded hover:bg-neutral-50"><input type="checkbox" value="retro"/> Retro</label>
+                <label class="flex items-center gap-2 px-2 py-1 rounded hover:bg-neutral-50"><input type="checkbox" value="sporty"/> Sporty</label>
+                <label class="flex items-center gap-2 px-2 py-1 rounded hover:bg-neutral-50"><input type="checkbox" value="girly"/> Girly</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- fit (độ rộng/phom) -->
+          <div class="relative">
+            <button id="btnFit" class="chip px-4 py-2 text-sm">Phom</button>
+            <div id="popFit" class="pop hidden bg-white ring-1 ring-neutral-200 rounded-xl p-2 shadow">
+              <div class="grid grid-cols-2 gap-1 text-sm">
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="slim"/> Slim</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="regular"/> Regular</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="oversize"/> Oversize</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- formality -->
+          <div class="relative">
+            <button id="btnForm" class="chip px-4 py-2 text-sm">Trang trọng</button>
+            <div id="popForm" class="pop hidden bg-white ring-1 ring-neutral-200 rounded-xl p-2 shadow">
+              <div class="grid grid-cols-2 gap-1 text-sm">
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="casual"/> Casual</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="smart-casual"/> Smart-casual</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="formal"/> Formal</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- season -->
+          <div class="relative">
+            <button id="btnSeason" class="chip px-4 py-2 text-sm">Mùa</button>
+            <div id="popSeason" class="pop hidden bg-white ring-1 ring-neutral-200 rounded-xl p-2 shadow">
+              <div class="grid grid-cols-2 gap-1 text-sm">
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="spring"/> Xuân</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="summer"/> Hè</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="fall"/> Thu</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="winter"/> Đông</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- colors -->
+          <div class="relative">
+            <button id="btnColor" class="chip px-4 py-2 text-sm">Màu sắc</button>
+            <div id="popColor" class="pop hidden bg-white ring-1 ring-neutral-200 rounded-xl p-2 shadow">
+              <div class="grid grid-cols-3 gap-1 text-sm">
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="black"/> Đen</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="white"/> Trắng</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="gray"/> Xám</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="blue"/> Xanh</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="beige"/> Be</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="brown"/> Nâu</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="green"/> Lục</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="red"/> Đỏ</label>
+                <label class="flex items-center gap-2 px-2 py-1 hover:bg-neutral-50 rounded"><input type="checkbox" value="yellow"/> Vàng</label>
+              </div>
+            </div>
+          </div>
+
+          <button id="btnClear" class="chip px-4 py-2 text-sm">Xóa lọc</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <main class="mx-auto max-w-6xl px-4 pt-5 pb-16">
+    <div class="flex items-center justify-between">
+      <div class="text-sm text-neutral-600">
+        Kết quả <span id="count" class="inline-flex items-center gap-1 bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full ml-1">0</span>
+      </div>
+      <div class="text-sm text-neutral-500"><span id="activeTags">Không có bộ lọc</span></div>
+    </div>
+
+    <!-- Masonry grid -->
+    <div id="grid" class="masonry mt-4"></div>
+  </main>
+
+  <script src="src/js/search.js"></script>
+</body>
+</html>
